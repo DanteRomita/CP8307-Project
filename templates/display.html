@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uploaded Images</title>
+</head>
+<body>
+    <h1>Uploaded Images</h1>
+    {% for filename in filenames %}
+        <img src="{{ url_for('uploaded_file', filename=filename) }}" width="400" alt="Uploaded Image">
+    {% endfor %}
+</body>
+</html>

@@ -1,32 +1,41 @@
-from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
-import requests
-import json
+from flask import Flask, request, render_template
+from flask import send_from_directory
 import os
 
-app = Flask(__name__, template_folder='templates')
-app.config['SECRET_KEY'] = 'super secret key'
-app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+app = Flask(__name__)
 
-upload_folder = os.path.join(app.root_path, 'uploads')
-app.config['UPLOAD'] = upload_folder
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['jpg', 'jpeg', 'png', 'gif']
 
-@app.route('/test_upload', methods=['POST', 'GET'])
-def test_upload():
+def delete_uploaded_files():
+    for filename in os.listdir(app.config['UPLOAD_FOLDER']):
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_images():
+    uploaded_files = []
+
     if request.method == 'POST':
-        file = request.files['userImages']
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD'], filename))
-        img = os.path.join(app.config['UPLOAD'], filename)
-        return render_template('test_upload.html', img=img)
-    return render_template('test_upload.html')
+        delete_uploaded_files()
+        for file in request.files.getlist('files'):
+            if file and allowed_file(file.filename) and file.filename != '':
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                uploaded_files.append(file.filename)
+            else:
+                return "Invalid file type. Only image files are allowed.", 400
 
-    # return ("Hello, World!")
+        return render_template('display.html', filenames=uploaded_files)
+    return render_template('upload.html')
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+if not os.path.exists('uploads'):
+    os.makedirs('uploads')
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    
+    app.run()

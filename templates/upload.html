@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+</head>
+<body>
+    <h1>Upload Images</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="files" multiple>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+
+<script>
+    function validateFileUpload() {
+        var fileInput = document.querySelector('input[type="file"]');
+        var files = fileInput.files;
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var fileType = file.type;
+            if (!fileType.startsWith('image/')) {
+                alert("Only image files are allowed.");
+                fileInput.value = ''; // Clear the input field
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Attach the validation to the form submission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (!validateFileUpload()) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+</html>
