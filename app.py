@@ -40,7 +40,7 @@ def delete_uploaded_files():
 # Function to extract Features from uploaded image
 def extract_features(image_path):
     model = InceptionV3(weights='imagenet', include_top=False, pooling='avg')
-    image = load_img(image_path, target_size=(299, 299)).convert('RGB')
+    image = load_img(image_path, target_size=(299, 299))
     image = img_to_array(image)
     image = np.expand_dims(image, axis=0)
     image = preprocess_input(image)
