@@ -6,7 +6,11 @@
 <body>
     <h1>Uploaded Images</h1>
     {% for filename in filenames %}
+    <figure>
         <img src="{{ url_for('uploaded_file', filename=filename) }}" width="400" alt="Uploaded Image">
+        <figcaption>{{ filename }}</figcaption>
+    </figure>
+        
     {% endfor %}
 </body>
 </html>
