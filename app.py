@@ -1,5 +1,6 @@
 import os
-
+import matplotlib
+matplotlib.use('Agg')
 import warnings; warnings.filterwarnings('ignore')
 
 from tensorflow.keras.applications.inception_v3 import InceptionV3, preprocess_input # type: ignore
@@ -10,6 +11,7 @@ import numpy as np
 import pickle
 from PIL import Image
 import matplotlib.pyplot as plt
+
 
 # Load the model from a .keras file
 projectDir = 'project_files-DR/'
