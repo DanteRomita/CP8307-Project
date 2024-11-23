@@ -1,17 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Image Upload</title>
+    <title>CP8307 Project - Automatic Image Captioning</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <style>
+        p,
+        ul,
+        figcaption {
+            font-size: large;
+        }
+
+        input,
+        legend {
+            font-size: x-large;
+        }
+    </style>
 </head>
-<body>
-    <h1>Upload Images</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="files" multiple>
-        <input type="submit" value="Upload">
-    </form>
+
+<body style="margin: 8px;">
+    <h3>CP8307 Project - Automatic Image Captioning</h1>
+        <h4>Authors</h2>
+            <ul>
+                <li>Dante Romita</li>
+                <li>Harshita Singh</li>
+                <li>Ronald Kakooza</li>
+                <li>Saeeda Shabbir</li>
+            </ul>
+            <p>
+                To generate captions for your images, please select one or more image files, then click "Upload".
+            </p>
+            <form method="post" enctype="multipart/form-data">
+                <input id="files" type="file" name="files" multiple>
+                <input type="submit" value="Upload">
+            </form>
+            <fieldset>
+                <legend>Uploaded Files</legend>
+                <ul id="fileList"></ul>
+            </fieldset>
 </body>
 
 <script>
+    document.getElementById('files').addEventListener('change', () => {
+        FileList = document.getElementById('fileList');
+        FileList.innerHTML = '';
+        for (file of event.target.files) {
+            var li = document.createElement('li');
+            li.textContent = file.name;
+            FileList.appendChild(li);
+        }
+    })
+
     function validateFileUpload() {
         var fileInput = document.querySelector('input[type="file"]');
         var files = fileInput.files;
@@ -29,7 +73,7 @@
     }
 
     // Attach the validation to the form submission
-    document.querySelector('form').addEventListener('submit', function(event) {
+    document.querySelector('form').addEventListener('submit', function (event) {
         if (!validateFileUpload()) {
             event.preventDefault();
         }

@@ -71,8 +71,6 @@ def allowed_file(filename):
 def delete_uploaded_images():
     for filename in os.listdir(app.config['UPLOAD_FOLDER']):
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    for filename in os.listdir('output'):
-        os.remove(os.path.join('output', filename))
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_images():
@@ -92,28 +90,23 @@ def upload_images():
         for image in uploaded_images:
             features_of_images.append(extract_features(UPLOAD_FOLDER + '/' + image))
 
-        print(features_of_images)
-
         for feature in features_of_images:
-            # print('Model: ', model)
-            # print('Feature: ', feature)
-            # print('Wordtoix: ', wordtoix)
-            # print('ixtoword: ', ixtoword)
-            # print('Max Length: ', max_length)
             generated_captions.append(predict_caption(model, feature, wordtoix, ixtoword, max_length))
 
+        outputImages = []
         for i in range(len(uploaded_images)):
             current_image = Image.open(UPLOAD_FOLDER + '/' + uploaded_images[i])
-            plt.figure(figsize=(8, 8))
+            plt.figure(figsize=(10, 5))
             plt.imshow(current_image)
             plt.axis('off')
             plt.title(f'Generated Caption: {generated_captions[i]}')
             # plt.show()
 
-            outputDir = 'output/'
-            plt.savefig(outputDir + 'OUTPUT-' + uploaded_images[i])
+            outputFile = '___OUTPUT-' + uploaded_images[i]
+            plt.savefig('uploads/' + outputFile)
+            outputImages.append(outputFile)
 
-        return render_template('display.html', filenames=uploaded_images)
+        return render_template('display.html', filenames=outputImages, generated_captions=generated_captions)
     return render_template('upload.html')
 
 @app.route('/uploads/<filename>')
@@ -122,9 +115,6 @@ def uploaded_file(filename):
 
 if not os.path.exists('uploads'):
     os.makedirs('uploads')
-
-if not os.path.exists('output'):
-    os.makedirs('output')
 
 if __name__ == '__main__':
     app.run()
