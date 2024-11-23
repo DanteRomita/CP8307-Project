@@ -1,6 +1,7 @@
 import os
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Qt5Agg')
+
 import warnings; warnings.filterwarnings('ignore')
 
 from tensorflow.keras.applications.inception_v3 import InceptionV3, preprocess_input # type: ignore
