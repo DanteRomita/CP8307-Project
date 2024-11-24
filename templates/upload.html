@@ -33,28 +33,29 @@
                 <li>Saeeda Shabbir</li>
             </ul>
             <p>
-                To generate captions for your images, please select one or more image files, then click "Upload".
+                To generate captions for your images, please select one or more image files, then click "Generate Caption(s)".
             </p>
             <form method="post" enctype="multipart/form-data">
                 <input id="files" type="file" name="files" multiple>
-                <input type="submit" value="Upload">
+                <input type="submit" value="Generate Caption(s)">
             </form>
-            <fieldset>
+            <p style="color: blue;" id="WaitMessage"></p>
+            <!-- <fieldset>
                 <legend>Uploaded Files</legend>
                 <ul id="fileList"></ul>
-            </fieldset>
+            </fieldset> -->
 </body>
 
 <script>
-    document.getElementById('files').addEventListener('change', () => {
-        FileList = document.getElementById('fileList');
-        FileList.innerHTML = '';
-        for (file of event.target.files) {
-            var li = document.createElement('li');
-            li.textContent = file.name;
-            FileList.appendChild(li);
-        }
-    })
+    // document.getElementById('files').addEventListener('change', () => {
+    //     FileList = document.getElementById('fileList');
+    //     FileList.innerHTML = '';
+    //     for (file of event.target.files) {
+    //         var li = document.createElement('li');
+    //         li.textContent = file.name;
+    //         FileList.appendChild(li);
+    //     }
+    // })
 
     function validateFileUpload() {
         var fileInput = document.querySelector('input[type="file"]');
@@ -76,6 +77,8 @@
     document.querySelector('form').addEventListener('submit', function (event) {
         if (!validateFileUpload()) {
             event.preventDefault();
+        } else {
+            document.getElementById('WaitMessage').innerHTML = 'Please Wait. Your images are being processed. Multiple images may take more time to process, so please be patient!'
         }
     });
 </script>

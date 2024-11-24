@@ -84,8 +84,10 @@ def upload_images():
             if file and allowed_file(file.filename) and file.filename != '':
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                 uploaded_images.append(file.filename)
+            elif file.filename == '':
+                return "<h1>No File Uploaded</h1> Press the 'Back' button on your browser to try again.", 400
             else:
-                return "Invalid file type. Only image files are allowed. Press the 'Back' button on your browser to try again.", 400
+                return "<h1>Invalid File Type(s)</h1> Press the 'Back' button on your browser to try again.", 400
 
         for image in uploaded_images:
             features_of_images.append(extract_features(UPLOAD_FOLDER + '/' + image))
@@ -93,20 +95,20 @@ def upload_images():
         for feature in features_of_images:
             generated_captions.append(predict_caption(model, feature, wordtoix, ixtoword, max_length))
 
-        outputImages = []
-        for i in range(len(uploaded_images)):
-            current_image = Image.open(UPLOAD_FOLDER + '/' + uploaded_images[i])
-            plt.figure(figsize=(10, 5))
-            plt.imshow(current_image)
-            plt.axis('off')
-            plt.title(f'Generated Caption: {generated_captions[i]}')
-            # plt.show()
+        # outputImages = []
+        # for i in range(len(uploaded_images)):
+        #     current_image = Image.open(UPLOAD_FOLDER + '/' + uploaded_images[i])
+        #     plt.figure(figsize=(10, 5))
+        #     plt.imshow(current_image)
+        #     plt.axis('off')
+        #     plt.title(f'Generated Caption: {generated_captions[i]}')
+        #     # plt.show()
 
-            outputFile = '___OUTPUT-' + uploaded_images[i]
-            plt.savefig('uploads/' + outputFile)
-            outputImages.append(outputFile)
+        #     outputFile = '___OUTPUT-' + uploaded_images[i]
+        #     plt.savefig('uploads/' + outputFile)
+        #     outputImages.append(outputFile)
 
-        return render_template('display.html', filenames=outputImages, generated_captions=generated_captions)
+        return render_template('display.html', filenames=uploaded_images, generated_captions=generated_captions)
     return render_template('upload.html')
 
 @app.route('/uploads/<filename>')
@@ -114,7 +116,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if not os.path.exists('uploads'):
-    os.makedirs('uploads')
+    os.makedir('uploads')
 
 if __name__ == '__main__':
     app.run()
