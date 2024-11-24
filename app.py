@@ -1,4 +1,6 @@
 import os
+import matplotlib
+matplotlib.use('Qt5Agg')
 
 import warnings; warnings.filterwarnings('ignore')
 
@@ -10,6 +12,7 @@ import numpy as np
 import pickle
 from PIL import Image
 import matplotlib.pyplot as plt
+
 
 # Load the model from a .keras file
 projectDir = 'project_files-DR/'
