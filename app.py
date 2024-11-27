@@ -118,7 +118,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if not os.path.exists('uploads'):
-    os.makedir('uploads')
+    os.makedirs('uploads')
 
 if __name__ == '__main__':
     app.run()
