@@ -1,6 +1,6 @@
 import os
-import matplotlib
-matplotlib.use('Qt5Agg')
+# import matplotlib
+# matplotlib.use('Qt5Agg')
 
 import warnings; warnings.filterwarnings('ignore')
 
@@ -10,12 +10,11 @@ from tensorflow.keras.models import Model, load_model # type: ignore
 from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
 import numpy as np
 import pickle
-from PIL import Image
-import matplotlib.pyplot as plt
-
+# from PIL import Image
+# import matplotlib.pyplot as plt
 
 # Load the model from a .keras file
-projectDir = 'project_files-DR/'
+projectDir = 'project_files/'
 extractor_model = load_model(projectDir + 'Inception_Feature_Extractor.keras')
 
 def extract_features(image_path):
@@ -119,7 +118,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if not os.path.exists('uploads'):
-    os.makedir('uploads')
+    os.makedirs('uploads')
 
 if __name__ == '__main__':
     app.run()
