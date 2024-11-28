@@ -33,10 +33,10 @@
                 <li>Saeeda Shabbir</li>
             </ul>
             <p>
-                To generate captions for your images, please select one or more image files, then click "Generate Caption(s)".
+                To generate captions for your images, please select one or more image files (jpg, jpeg, png, gif), then click "Generate Caption(s)".
             </p>
             <form method="post" enctype="multipart/form-data">
-                <input id="files" type="file" name="files" multiple>
+                <input id="files" type="file" name="files" accept="image/png, image/jpeg, image/gif, image/jpg" multiple>
                 <input type="submit" value="Generate Caption(s)">
             </form>
             <p style="color: blue;" id="WaitMessage"></p>
