@@ -56,7 +56,7 @@ def predict_caption(model, image, wordtoix, ixtoword, max_length):
         caption.append(word)
     return ' '.join(caption[1:])
 
-model = load_model(projectDir + 'saved_model_9.keras')    
+model = load_model(projectDir + 'caption_model.keras')    
 
 '''---FLASK APP ROUTING---'''
 
